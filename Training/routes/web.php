@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Chat\Chat;
+use App\Livewire\Chat\Index;
+use App\Livewire\Users;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,10 +18,6 @@ Route::get('/dashboard', function () {
 Route::get('/mentor', function () {
     return view('mentor');
 })->middleware(['auth', 'verified'])->name('mentor');
-
-Route::get('/chat', function () {
-    return view('chat');
-})->middleware(['auth', 'verified'])->name('chat');
 
 Route::get('/forum', function () {
     return view('forum');
@@ -33,4 +33,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::middleware('auth')->group(function (){
+
+    Route::get('/chat',Index::class)->name('chat.index');
+    Route::get('/chat/{query}',Chat::class)->name('chat');
+    Route::get('/users',Users::class)->name('users');
+    
+
+});
 require __DIR__.'/auth.php';
+
+

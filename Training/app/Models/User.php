@@ -45,4 +45,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    
+    public function conversations()
+    {
+        return Conversation::where(function ($query) {
+            $query->where('sender_id', $this->id)
+                  ->orWhere('receiver_id', $this->id);
+        });
+    }
 }
